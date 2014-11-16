@@ -35,3 +35,14 @@ input=:5
 count=: (! * 2&^) input
 output=: (": count), LF, arr2str signed"1 tap input
 output 1!:2 < 'rosalind_sign_out.txt'
+
+NB. http://rosalind.info/problems/prot/
+codon_tbl=: ;: (] ;. _2) 1!:1 < 'codon_tbl'
+codons=: > 0 {"1 codon_tbl
+aminos=: 1 {"1 codon_tbl
+stop_indices=: I. ; 'Stop'&-:&.> aminos
+aminos=: (<'') stop_indices} aminos  NB. replace 'Stop' with ''
+get_amino=: {&aminos @: I. @: (-:"1)&codons
+input=: 1!:1 < 'rosalind_prot.txt'
+output=: ; _3 get_amino\ input
+output 1!:2 < 'rosalind_prot_out.txt'

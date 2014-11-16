@@ -23,8 +23,15 @@ hamm=: +/ ~:/ data
 NB.http://rosalind.info/problems/perm/
 outfile=:'rosalind_perm_out.txt'
 tap=: i.@! A. (1+i.)
-arr2str=: , @: (,"1&LF) @: ":
+arr2str=: '_-' charsub , @: (,"1&LF) @: ":
 k=:7
 ((": !k), LF, arr2str tap k) 1!:2 < outfile
 
 NB. http://rosalind.info/problems/sign/
+bitstrings=. #: @: i. @: (2&^ @: #)
+signed_masks=. ({&(1 _1) @: bitstrings)
+signed=: [  (*"1 1) signed_masks 
+input=:5
+count=: (! * 2&^) input
+output=: (": count), LF, arr2str signed"1 tap input
+output 1!:2 < 'rosalind_sign_out.txt'

@@ -46,3 +46,10 @@ get_amino=: {&aminos @: I. @: (-:"1)&codons
 input=: 1!:1 < 'rosalind_prot.txt'
 output=: ; _3 get_amino\ input
 output 1!:2 < 'rosalind_prot_out.txt'
+
+NB.http://rosalind.info/problems/subs/
+f=:(1+I.@E.)
+data=: freads 'rosalind_subs.txt'
+s=: > {. (< ;. _2) data
+t=: > {: (< ;. _2) data
+output=: t f s

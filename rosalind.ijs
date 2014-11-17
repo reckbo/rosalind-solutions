@@ -53,3 +53,14 @@ data=: freads 'rosalind_subs.txt'
 s=: > {. (< ;. _2) data
 t=: > {: (< ;. _2) data
 output=: t f s
+
+NB. http://rosalind.info/problems/iprb/
+chrom=: 3 2 $ 1 1  0 1  0 0  NB. 1=dominant, 0 recessive, chromosome is 'x x'
+p=:4 %~ +/ @: , @: (+./)  NB. probability of dominant phenotype, e.g 1 1 p 0 1 = 0.5
+pairs=: 3 : '; {@({. ; }.)&.> }: <\. y # i.3' NB. pair combos, e.g. pairs y=: 2 2 2
+pair2chroms=: ((chrom {~ {.) ,: (chrom {~ {:)) each
+probs=: ; @: (p"1/ each) @: pair2chroms
+prob_of_dom=: 3 : '(+/ probs pairs y) % (2!+/y)'
+output=: prob_of_dom 16 20 19
+
+

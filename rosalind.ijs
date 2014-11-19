@@ -1,6 +1,12 @@
-NB. computing gc content
+NB. function to read fasta format
+filterLF=: #~ ~:&LF
+headLF=: {.~ i.&LF
+tailLF=: }.~ i.&LF
+fasta_id=:}.@headLF
+fasta_data=:filterLF@tailLF
+read_fasta=: 3 : ',. > (fasta_id ; fasta_data) each <;.1 freads y'
 
-
+NB. http://rosalind.info/problems/gc/
 F=:'rosalind_gc.txt'
 data =: 1!:1 < F
 mktbl =: < ;. 1
@@ -62,5 +68,15 @@ pair2chroms=: ((chrom {~ {.) ,: (chrom {~ {:)) each
 probs=: ; @: (p"1/ each) @: pair2chroms
 prob_of_dom=: 3 : '(+/ probs pairs y) % (2!+/y)'
 output=: prob_of_dom 16 20 19
+
+NB. http://rosalind.info/problems/cons/
+joinLF=: (, LF&,)/
+d=: read_fasta 'rosalind_cons.txt'
+profmat=: +/"2 @: (="2 0&'ACGT') @: > @: (1&{"1)
+fmt=: ((4 3 $ 'A: C: G: T: ') & ,.) @: (0&":)  NB. add prefixes and LF's
+consensus=: ({&'ACGT') @:  ((i. >./)"1) @: |: 
+output=: (consensus@profmat d) , LF, joinLF fmt profmat d
+output 1!:2 < 'rosalind_cons_out.txt'
+
 
 

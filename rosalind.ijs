@@ -78,5 +78,12 @@ consensus=: ({&'ACGT') @:  ((i. >./)"1) @: |:
 output=: (consensus@profmat d) , LF, joinLF fmt profmat d
 output 1!:2 < 'rosalind_cons_out.txt'
 
+NB. http://rosalind.info/problems/prob/
+F=: 'rosalind_prob.txt'
+'dna gcprobs'=: (<;._2) freads F
+gcprobs=: ". gcprobs
+probs=: -: @ (-. , ], ] , -.)"0 gcprobs  NB. probs for A C G T
+output=: '_-' charsub ": 10^. */"1 probs {~"1 'ACGT' i. dna
+
 
 

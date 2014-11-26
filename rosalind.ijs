@@ -1,10 +1,5 @@
-NB. function to read fasta format
-filterLF=: #~ ~:&LF
-headLF=: {.~ i.&LF
-tailLF=: }.~ i.&LF
-fasta_id=:}.@headLF
-fasta_data=:filterLF@tailLF
-read_fasta=: 3 : ',. > (fasta_id ; fasta_data) each <;.1 freads y'
+parse_fasta=: (LF&taketo ; (LF -.~ LF&takeafter));._1
+read_fasta=: parse_fasta@freads
 
 NB. http://rosalind.info/problems/gc/
 F=:'rosalind_gc.txt'
@@ -71,7 +66,7 @@ output=: prob_of_dom 16 20 19
 
 NB. http://rosalind.info/problems/cons/
 joinLF=: (, LF&,)/
-d=: read_fasta 'rosalind_cons.txt'
+d=: parse_fasta 'rosalind_cons.txt'
 profmat=: +/"2 @: (="2 0&'ACGT') @: > @: (1&{"1)
 fmt=: ((4 3 $ 'A: C: G: T: ') & ,.) @: (0&":)  NB. add prefixes and LF's
 consensus=: ({&'ACGT') @:  ((i. >./)"1) @: |: 
@@ -83,7 +78,8 @@ F=: 'rosalind_prob.txt'
 'dna gcprobs'=: (<;._2) freads F
 gcprobs=: ". gcprobs
 probs=: -: @ (-. , ], ] , -.)"0 gcprobs  NB. probs for A C G T
-output=: '_-' charsub ": 10^. */"1 probs {~"1 'ACGT' i. dna
+output=: '_-' charsub ": 10^. */"1 probs {~"1 'ACGT' i. dna  NB. apply probs to dna and multiply
 
 
-
+NB. http://rosalind.info/problems/fibd/
+f=: ( -&2 +&$: -&1)^:(1&<)
